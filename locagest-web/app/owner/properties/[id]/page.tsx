@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 import { money } from "@/lib/format";
 import { errorMessage } from "@/lib/forms";
 import { UnitForm } from "@/components/forms/UnitForm";
+import { Plus } from "lucide-react";
 import { Alert, Badge, Button, Card, Empty, LinkButton, Loading, Modal, PageHeader, Stat } from "@/components/ui";
 import type { Property, Unit } from "@/types";
 
@@ -65,7 +66,7 @@ export default function PropertyPage() {
         </div>
         {p.description && <p className="text-sm text-slate-600">{p.description}</p>}
 
-        <Card title="Logements" action={<Button className="py-1.5" onClick={() => setModal({ open: true })}>+ Ajouter</Button>}>
+        <Card title="Logements" action={<Button className="py-1.5" onClick={() => setModal({ open: true })}><Plus className="h-4 w-4" />Ajouter</Button>}>
           {!p.units?.length ? (
             <Empty title="Aucun logement dans ce bien.">Ajoutez les chambres, appartements ou boutiques à louer.</Empty>
           ) : (

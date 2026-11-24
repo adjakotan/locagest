@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api } from "@/lib/api";
 import { applyServerErrors } from "@/lib/forms";
+import { ArrowLeft } from "lucide-react";
 import { Alert, Button, Field, Input } from "@/components/ui";
 
 const schema = z.object({ email: z.string().min(1, "L'e-mail est obligatoire.").email("Adresse e-mail invalide.") });
@@ -37,7 +38,7 @@ export default function ForgotPasswordPage() {
         <Input type="email" autoComplete="email" {...register("email")} />
       </Field>
       <Button type="submit" loading={isSubmitting} className="w-full">Envoyer le lien</Button>
-      <p className="text-center text-sm"><Link href="/login" className="text-brand-600 hover:underline">← Retour à la connexion</Link></p>
+      <p className="text-center text-sm"><Link href="/login" className="inline-flex items-center gap-1 text-slate-500 hover:text-brand-700"><ArrowLeft className="h-4 w-4" /> Retour à la connexion</Link></p>
     </form>
   );
 }

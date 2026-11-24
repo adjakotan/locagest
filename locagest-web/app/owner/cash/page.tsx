@@ -7,6 +7,7 @@ import { useApi } from "@/hooks/useApi";
 import { api, qs } from "@/lib/api";
 import { date, money } from "@/lib/format";
 import { applyServerErrors } from "@/lib/forms";
+import { ArrowLeftRight, Landmark, ShieldCheck, Wallet } from "lucide-react";
 import { Alert, Button, Card, Empty, Field, Input, LinkButton, Loading, Modal, PageHeader, Pagination, Select, Stat } from "@/components/ui";
 import type { FundMovement, Paginated, Property } from "@/types";
 
@@ -68,13 +69,13 @@ function CashView() {
       {cash.loading && !c ? <Loading /> : cash.error ? <Alert>{cash.error}</Alert> : c && (
         <div className="space-y-6">
           <div className="grid gap-3 sm:grid-cols-3">
-            <Stat label="Caisse principale" value={money(c.balances.main)} hint="Disponible pour les dépenses et les retraits" />
-            <Stat label="Réserve pour imprévus" value={money(c.balances.reserve)} hint={`${c.property.reserve_rate} % de chaque loyer · jamais retirée`} />
-            <Stat label="Total" value={money(c.balances.main + c.balances.reserve)} />
+            <Stat icon={Wallet} label="Caisse principale" value={money(c.balances.main)} hint="Disponible pour les dépenses et les retraits" />
+            <Stat icon={ShieldCheck} label="Réserve pour imprévus" value={money(c.balances.reserve)} hint={`${c.property.reserve_rate} % de chaque loyer · jamais retirée`} />
+            <Stat icon={Landmark} label="Total" value={money(c.balances.main + c.balances.reserve)} />
           </div>
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => open("withdraw")}>Retirer le bénéfice</Button>
-            <Button variant="secondary" onClick={() => open("transfer")}>Transfert principale ↔ réserve</Button>
+            <Button variant="secondary" onClick={() => open("transfer")}><ArrowLeftRight className="h-4 w-4" /> Transfert principale / réserve</Button>
             <LinkButton variant="secondary" href={`/owner/expenses/new?property=${propertyId}`}>Saisir une dépense</LinkButton>
           </div>
 

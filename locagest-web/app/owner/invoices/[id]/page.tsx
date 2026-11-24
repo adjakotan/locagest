@@ -11,6 +11,7 @@ import { api, download } from "@/lib/api";
 import { date, ITEM_TYPES, money, PAYMENT_METHODS, today } from "@/lib/format";
 import { applyServerErrors, errorMessage } from "@/lib/forms";
 import { InvoiceDocuments } from "@/components/InvoiceDocuments";
+import { Plus } from "lucide-react";
 import { Alert, Badge, Button, Card, Field, Input, Loading, Modal, PageHeader, Select } from "@/components/ui";
 import type { Invoice, Payment } from "@/types";
 
@@ -103,7 +104,7 @@ export default function InvoicePage() {
         back="/owner/invoices"
         title={`Facture ${inv.invoice_number}`}
         subtitle={<>{inv.period_label} · <Link href={`/owner/tenants/${inv.lease?.tenant?.id}`} className="hover:underline">{inv.lease?.tenant?.full_name}</Link> · {inv.lease?.unit?.label} — {inv.lease?.unit?.property?.name}</>}
-        actions={inv.status !== "paid" && <Button onClick={openPayment}>+ Enregistrer un paiement</Button>}
+        actions={inv.status !== "paid" && <Button onClick={openPayment}><Plus className="h-4 w-4" />Enregistrer un paiement</Button>}
       />
       <div className="space-y-6">
         {actionMsg && <Alert kind={actionMsg.kind}>{actionMsg.text}</Alert>}
@@ -117,7 +118,7 @@ export default function InvoicePage() {
         <InvoiceDocuments invoice={inv} share />
 
         {/* F46 / F47 */}
-        <Card title="Détail de la facture" action={inv.status !== "paid" && <Button variant="secondary" className="py-1.5" onClick={() => { setFormError(""); setModal("item"); }}>+ Ajouter une ligne</Button>}>
+        <Card title="Détail de la facture" action={inv.status !== "paid" && <Button variant="secondary" className="py-1.5" onClick={() => { setFormError(""); setModal("item"); }}><Plus className="h-4 w-4" />Ajouter une ligne</Button>}>
           <table className="w-full text-sm">
             <tbody className="divide-y divide-slate-100">
               {inv.items?.map((it) => (

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useApi } from "@/hooks/useApi";
 import { date, money } from "@/lib/format";
+import { CalendarClock, Home, Wallet, Wrench } from "lucide-react";
 import { Alert, Badge, Card, Empty, LinkButton, Loading, PageHeader, Stat } from "@/components/ui";
 import type { Invoice, Lease, Paginated } from "@/types";
 
@@ -29,9 +30,9 @@ export default function TenantHome() {
       <PageHeader title={`Bonjour ${data.tenant.full_name}`} subtitle="Votre espace locataire" />
       <div className="space-y-6">
         <div className="grid gap-3 sm:grid-cols-3">
-          <Stat label="Solde dû" value={money(data.balance_due)} tone={data.balance_due > 0 ? "bad" : "good"} hint={data.balance_due > 0 ? "à régler auprès de votre propriétaire" : "vous êtes à jour"} />
-          <Stat label="Loyer mensuel" value={l ? money(l.rent_amount) : "—"} hint={l ? `à payer avant le ${l.due_day} du mois` : undefined} />
-          <Stat label="Logement" value={<span className="text-base">{l ? l.unit?.label : "Aucun bail en cours"}</span>} hint={l?.unit?.property?.name} />
+          <Stat icon={Wallet} label="Solde dû" value={money(data.balance_due)} tone={data.balance_due > 0 ? "bad" : "good"} hint={data.balance_due > 0 ? "à régler auprès de votre propriétaire" : "vous êtes à jour"} />
+          <Stat icon={CalendarClock} label="Loyer mensuel" value={l ? money(l.rent_amount) : "—"} hint={l ? `à payer avant le ${l.due_day} du mois` : undefined} />
+          <Stat icon={Home} label="Logement" value={<span className="text-base">{l ? l.unit?.label : "Aucun bail en cours"}</span>} hint={l?.unit?.property?.name} />
         </div>
 
         {toPay && (
@@ -68,7 +69,7 @@ export default function TenantHome() {
         </Card>
 
         <div className="flex flex-wrap gap-2">
-          <LinkButton href="/tenant/maintenance" variant="secondary">🛠️ Signaler un problème</LinkButton>
+          <LinkButton href="/tenant/maintenance" variant="secondary"><Wrench className="h-4 w-4" /> Signaler un problème</LinkButton>
         </div>
       </div>
     </>

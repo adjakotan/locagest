@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { qs } from "@/lib/api";
 import { date, money } from "@/lib/format";
+import { Plus } from "lucide-react";
 import { Alert, Badge, Cell, Empty, Input, LinkButton, Loading, PageHeader, Pagination, Row, Select, Table } from "@/components/ui";
 import type { Lease, Paginated } from "@/types";
 
@@ -13,7 +14,7 @@ export default function LeasesPage() {
 
   return (
     <>
-      <PageHeader title="Baux" actions={<LinkButton href="/owner/leases/new">+ Nouveau bail</LinkButton>} />
+      <PageHeader title="Baux" actions={<LinkButton href="/owner/leases/new"><Plus className="h-4 w-4" />Nouveau bail</LinkButton>} />
       <div className="mb-4 flex flex-col gap-2 sm:flex-row">
         <Input placeholder="Nom du locataire…" value={f.search} onChange={(e) => setF({ ...f, search: e.target.value, page: 1 })} className="sm:max-w-xs" />
         <Select value={f.status} onChange={(e) => setF({ ...f, status: e.target.value, page: 1 })} className="sm:w-48" aria-label="Statut">

@@ -42,6 +42,10 @@ php artisan invoices:mark-late     # à la main : retards + pénalités
 cd locagest-api && php artisan test     # 37 tests : règles de gestion et scénarios de recette
 ```
 
+## Planification
+
+La planification du projet (tâches A à N, PERT, marges, chemin critique, Gantt, sprints) est dans [`docs/PLANIFICATION.md`](docs/PLANIFICATION.md).
+
 ## Ce qui est livré
 
 | Sprint | Tâche | Contenu |

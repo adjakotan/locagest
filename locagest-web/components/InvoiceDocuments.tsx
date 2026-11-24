@@ -4,6 +4,7 @@ import { useState } from "react";
 import { download } from "@/lib/api";
 import { date, money } from "@/lib/format";
 import { errorMessage } from "@/lib/forms";
+import { BadgeCheck, FileDown, Mail, MessageCircle } from "lucide-react";
 import { Alert, Button } from "@/components/ui";
 import type { Invoice } from "@/types";
 
@@ -31,19 +32,19 @@ export function InvoiceDocuments({ invoice, share = false }: { invoice: Invoice;
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" loading={busy === "pdf"} onClick={() => get("pdf", `/invoices/${invoice.id}/pdf`, `${invoice.invoice_number}.pdf`)}>📄 Facture PDF</Button>
+        <Button variant="secondary" loading={busy === "pdf"} onClick={() => get("pdf", `/invoices/${invoice.id}/pdf`, `${invoice.invoice_number}.pdf`)}><FileDown className="h-4 w-4" /> Facture PDF</Button>
         {invoice.receipt && (
           <Button variant="success" loading={busy === "receipt"} onClick={() => get("receipt", `/payments/${invoice.receipt!.payment_id}/receipt`, `${invoice.receipt!.receipt_number}.pdf`)}>
-            ✓ Quittance {invoice.receipt.receipt_number}
+            <BadgeCheck className="h-4 w-4" /> Quittance {invoice.receipt.receipt_number}
           </Button>
         )}
         {share && (
           <>
             <a className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50" target="_blank" rel="noreferrer" href={`https://wa.me/${phone}?text=${encodeURIComponent(text)}`}>
-              WhatsApp
+              <MessageCircle className="h-4 w-4" /> WhatsApp
             </a>
             <a className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50" href={`mailto:?subject=${encodeURIComponent("Facture " + invoice.invoice_number)}&body=${encodeURIComponent(text)}`}>
-              E-mail
+              <Mail className="h-4 w-4" /> E-mail
             </a>
           </>
         )}

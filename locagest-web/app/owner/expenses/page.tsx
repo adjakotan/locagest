@@ -5,6 +5,7 @@ import { useApi } from "@/hooks/useApi";
 import { api, download, qs } from "@/lib/api";
 import { date, money } from "@/lib/format";
 import { errorMessage } from "@/lib/forms";
+import { Plus } from "lucide-react";
 import { Alert, Badge, Button, Cell, Empty, Input, LinkButton, Loading, PageHeader, Pagination, Row, Select, Table } from "@/components/ui";
 import type { Expense, ExpenseCategory, Paginated, Property } from "@/types";
 
@@ -29,7 +30,7 @@ export default function ExpensesPage() {
 
   return (
     <>
-      <PageHeader title="Dépenses" subtitle="Réparations, entretien, charges… payées depuis la caisse du bien" actions={<LinkButton href="/owner/expenses/new">+ Saisir une dépense</LinkButton>} />
+      <PageHeader title="Dépenses" subtitle="Réparations, entretien, charges… payées depuis la caisse du bien" actions={<LinkButton href="/owner/expenses/new"><Plus className="h-4 w-4" />Saisir une dépense</LinkButton>} />
       <div className="mb-4 grid grid-cols-2 gap-2 sm:flex">
         <Select value={f.property} onChange={(e) => setF({ ...f, property: e.target.value, page: 1 })} className="sm:w-56" aria-label="Bien">
           <option value="">Tous les biens</option>

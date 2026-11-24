@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { AlertCircle, CheckCircle2, ChevronLeft, Info, Inbox, X, type LucideIcon } from "lucide-react";
 import { forwardRef, useEffect } from "react";
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 
-export function cn(...c: (string | false | null | undefined)[]) {
-  return c.filter(Boolean).join(" ");
-}
+import { cn } from "@/lib/cn";
+
+export { cn };
 
 type Variant = "primary" | "secondary" | "danger" | "ghost" | "ghostDanger" | "success";
 const variants: Record<Variant, string> = {
@@ -93,7 +94,7 @@ export function Card({ children, className, title, action }: { children: ReactNo
     <section className={cn("rounded-xl border border-slate-200 bg-white shadow-sm", className)}>
       {(title || action) && (
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-4 py-3">
-          {title && <h2 className="font-semibold text-slate-800">{title}</h2>}
+          {title && <h2 className="text-[15px] font-semibold text-slate-900">{title}</h2>}
           {action}
         </div>
       )}
@@ -107,11 +108,11 @@ export function PageHeader({ title, subtitle, actions, back }: { title: ReactNod
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         {back && (
-          <Link href={back} className="mb-1 inline-block text-sm text-brand-600 hover:underline">
-            ← Retour
+          <Link href={back} className="mb-2 inline-flex items-center gap-1 text-sm font-medium text-slate-500 transition hover:text-brand-700">
+            <ChevronLeft className="h-4 w-4" /> Retour
           </Link>
         )}
-        <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{title}</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">{title}</h1>
         {subtitle && <p className="mt-0.5 text-sm text-slate-500">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
@@ -151,24 +152,35 @@ export function Badge({ status, children }: { status: string; children: ReactNod
 
 export function Alert({ kind = "error", children }: { kind?: "error" | "success" | "info"; children: ReactNode }) {
   if (!children) return null;
-  const cls = { error: "border-red-200 bg-red-50 text-red-800", success: "border-emerald-200 bg-emerald-50 text-emerald-800", info: "border-sky-200 bg-sky-50 text-sky-800" }[kind];
-  return <div role={kind === "error" ? "alert" : "status"} className={cn("rounded-lg border px-4 py-3 text-sm", cls)}>{children}</div>;
+  const cls = { error: "border-red-200 bg-red-50 text-red-800", success: "border-emerald-200 bg-emerald-50 text-emerald-800", info: "border-brand-200 bg-brand-50 text-brand-900" }[kind];
+  const Icon = { error: AlertCircle, success: CheckCircle2, info: Info }[kind];
+  return (
+    <div role={kind === "error" ? "alert" : "status"} className={cn("flex gap-3 rounded-lg border px-4 py-3 text-sm", cls)}>
+      <Icon className="mt-0.5 h-4 w-4 shrink-0" />
+      <div className="min-w-0 flex-1">{children}</div>
+    </div>
+  );
 }
 
-export function Empty({ title, children }: { title: string; children?: ReactNode }) {
+export function Empty({ title, children, icon: Icon = Inbox }: { title: string; children?: ReactNode; icon?: LucideIcon }) {
   return (
     <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center">
+      <span className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-400"><Icon className="h-5 w-5" /></span>
       <p className="font-medium text-slate-700">{title}</p>
       {children && <div className="mt-3 text-sm text-slate-500">{children}</div>}
     </div>
   );
 }
 
-export function Stat({ label, value, hint, tone = "default" }: { label: string; value: ReactNode; hint?: ReactNode; tone?: "default" | "good" | "bad" | "warn" }) {
+export function Stat({ label, value, hint, tone = "default", icon: Icon }: { label: string; value: ReactNode; hint?: ReactNode; tone?: "default" | "good" | "bad" | "warn"; icon?: LucideIcon }) {
   const toneCls = { default: "text-slate-900", good: "text-emerald-700", bad: "text-red-700", warn: "text-amber-700" }[tone];
+  const iconCls = { default: "bg-brand-50 text-brand-600", good: "bg-emerald-50 text-emerald-600", bad: "bg-red-50 text-red-600", warn: "bg-amber-50 text-amber-600" }[tone];
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
+        {Icon && <span className={cn("hidden h-8 w-8 shrink-0 items-center justify-center rounded-lg sm:flex", iconCls)}><Icon className="h-4 w-4" /></span>}
+      </div>
       <p className={cn("mt-1 text-xl font-bold tabular-nums sm:text-2xl", toneCls)}>{value}</p>
       {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </div>
@@ -188,8 +200,8 @@ export function Modal({ open, onClose, title, children }: { open: boolean; onClo
       <div role="dialog" aria-modal className="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-5 shadow-xl sm:max-w-lg sm:rounded-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
-          <button onClick={onClose} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600" aria-label="Fermer">
-            ✕
+          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600" aria-label="Fermer">
+            <X className="h-5 w-5" />
           </button>
         </div>
         {children}

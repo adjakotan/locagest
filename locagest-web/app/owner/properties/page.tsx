@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { qs } from "@/lib/api";
+import { Plus } from "lucide-react";
 import { Alert, Empty, Input, LinkButton, Loading, PageHeader, Pagination } from "@/components/ui";
 import type { Paginated, Property } from "@/types";
 
@@ -14,7 +15,7 @@ export default function PropertiesPage() {
 
   return (
     <>
-      <PageHeader title="Mes biens" subtitle="Immeubles, maisons, cours…" actions={<LinkButton href="/owner/properties/new">+ Nouveau bien</LinkButton>} />
+      <PageHeader title="Mes biens" subtitle="Immeubles, maisons, cours…" actions={<LinkButton href="/owner/properties/new"><Plus className="h-4 w-4" />Nouveau bien</LinkButton>} />
       <Input placeholder="Rechercher par nom, ville ou quartier…" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} className="mb-4 sm:max-w-sm" />
       {loading && !data ? <Loading /> : error ? <Alert>{error}</Alert> : data && data.data.length === 0 ? (
         <Empty title={search ? "Aucun bien ne correspond." : "Vous n'avez pas encore de bien."}>

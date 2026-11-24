@@ -7,6 +7,7 @@ import { useApi } from "@/hooks/useApi";
 import { api, download, qs } from "@/lib/api";
 import { date } from "@/lib/format";
 import { applyServerErrors, errorMessage } from "@/lib/forms";
+import { Plus } from "lucide-react";
 import { Alert, Badge, Button, Empty, Field, Input, Loading, Modal, PageHeader, Pagination, Select, Textarea } from "@/components/ui";
 import type { MaintenanceRequest, Paginated, Property } from "@/types";
 
@@ -53,7 +54,7 @@ export function MaintenanceList({ asOwner }: { asOwner: boolean }) {
       <PageHeader
         title="Signalements"
         subtitle={asOwner ? "Pannes et problèmes signalés dans vos logements" : "Signalez un problème dans votre logement"}
-        actions={<Button onClick={() => { setFormError(""); setCreating(true); }}>+ Nouveau signalement</Button>}
+        actions={<Button onClick={() => { setFormError(""); setCreating(true); }}><Plus className="h-4 w-4" />Nouveau signalement</Button>}
       />
       <Select value={f.status} onChange={(e) => setF({ status: e.target.value, page: 1 })} className="mb-4 sm:w-52" aria-label="Statut">
         <option value="">Tous</option>

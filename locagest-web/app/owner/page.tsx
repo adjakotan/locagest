@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useApi } from "@/hooks/useApi";
 import { qs } from "@/lib/api";
 import { currentMonth, money } from "@/lib/format";
+import { Banknote, Building2, Clock, LineChart, Plus, ReceiptText, ShieldCheck, TrendingUp, Wallet } from "lucide-react";
 import { Alert, Card, Empty, Input, LinkButton, Loading, PageHeader, Stat } from "@/components/ui";
 import type { Dashboard } from "@/types";
 
@@ -34,25 +35,25 @@ export default function OwnerDashboard() {
 
           {/* F60 */}
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Stat label="Facturé ce mois" value={money(data.billed)} />
-            <Stat label="Encaissé ce mois" value={money(data.collected)} tone="good" />
-            <Stat label="Reste à percevoir" value={money(data.outstanding)} tone={data.outstanding > 0 ? "warn" : "default"} hint="toutes périodes" />
-            <Stat label="Taux d'occupation" value={`${data.occupancy_rate} %`} hint={`${data.occupied_count} / ${data.units_count} logements`} />
+            <Stat icon={ReceiptText} label="Facturé ce mois" value={money(data.billed)} />
+            <Stat icon={TrendingUp} label="Encaissé ce mois" value={money(data.collected)} tone="good" />
+            <Stat icon={Clock} label="Reste à percevoir" value={money(data.outstanding)} tone={data.outstanding > 0 ? "warn" : "default"} hint="toutes périodes" />
+            <Stat icon={Building2} label="Taux d'occupation" value={`${data.occupancy_rate} %`} hint={`${data.occupied_count} / ${data.units_count} logements`} />
           </div>
 
           {/* F64 */}
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Stat label="Caisse principale" value={money(data.cash_main)} />
-            <Stat label="Réserve (imprévus)" value={money(data.cash_reserve)} />
-            <Stat label="Dépenses du mois" value={money(data.expenses_month)} />
-            <Stat label="Résultat net du mois" value={money(data.net_result_month)} tone={data.net_result_month >= 0 ? "good" : "bad"} />
+            <Stat icon={Wallet} label="Caisse principale" value={money(data.cash_main)} />
+            <Stat icon={ShieldCheck} label="Réserve (imprévus)" value={money(data.cash_reserve)} />
+            <Stat icon={Banknote} label="Dépenses du mois" value={money(data.expenses_month)} />
+            <Stat icon={LineChart} label="Résultat net du mois" value={money(data.net_result_month)} tone={data.net_result_month >= 0 ? "good" : "bad"} />
           </div>
 
           <div className="grid gap-6 lg:grid-cols-5">
             {/* F61 */}
             <Card className="lg:col-span-3" title={`Locataires en retard (${data.late_count})`} action={<Link href="/owner/invoices?status=late" className="text-sm text-brand-600 hover:underline">Tout voir</Link>}>
               {data.late_invoices.length === 0 ? (
-                <p className="py-6 text-center text-sm text-slate-500">Aucun retard de paiement. 🎉</p>
+                <p className="py-6 text-center text-sm text-slate-500">Aucun retard de paiement.</p>
               ) : (
                 <ul className="divide-y divide-slate-100">
                   {data.late_invoices.slice(0, 8).map((l) => (
@@ -80,7 +81,7 @@ export default function OwnerDashboard() {
           </div>
 
           {/* F65 */}
-          <Card title="Vos biens" action={<LinkButton href="/owner/properties/new" variant="secondary" className="py-1.5">+ Ajouter un bien</LinkButton>}>
+          <Card title="Vos biens" action={<LinkButton href="/owner/properties/new" variant="secondary" className="py-1.5"><Plus className="h-4 w-4" />Ajouter un bien</LinkButton>}>
             {data.properties.length === 0 ? (
               <Empty title="Aucun bien pour l'instant." />
             ) : (

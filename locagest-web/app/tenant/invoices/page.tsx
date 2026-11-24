@@ -5,6 +5,7 @@ import { useApi } from "@/hooks/useApi";
 import { download, qs } from "@/lib/api";
 import { date, money } from "@/lib/format";
 import { errorMessage } from "@/lib/forms";
+import { Download } from "lucide-react";
 import { Alert, Badge, Button, Cell, Empty, Loading, PageHeader, Pagination, Row, Table } from "@/components/ui";
 import type { Invoice, Paginated } from "@/types";
 
@@ -31,7 +32,7 @@ export default function TenantInvoices() {
                 <Cell>
                   {i.receipt ? (
                     <Button variant="ghost" className="px-2 py-1 text-emerald-700" onClick={(e) => { e.stopPropagation(); download(`/payments/${i.receipt!.payment_id}/receipt`, `${i.receipt!.receipt_number}.pdf`).catch((err) => setMsg(errorMessage(err))); }}>
-                      ⬇ {i.receipt.receipt_number}
+                      <Download className="h-4 w-4" /> {i.receipt.receipt_number}
                     </Button>
                   ) : <span className="text-xs text-slate-400">—</span>}
                 </Cell>
